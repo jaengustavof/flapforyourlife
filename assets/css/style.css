@@ -1,0 +1,487 @@
+/* FUENTES PERSONALIZADAS */
+@font-face {
+	font-family: '3Dumb'; 
+	src: url('../rsc/fonts/3Dumb.ttf') format('truetype'); 
+
+}
+
+@font-face {
+	font-family: '2Dumb'; 
+	src: url('../rsc/fonts/2Dumb.ttf') format('truetype'); 
+
+}
+
+/* VARIABLES */
+
+:root {}
+
+/* CSS COMUN */
+
+*{
+	
+	box-sizing: border-box; /* El padding y el borde están incluidos en el ancho y la altura */
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-family: '2Dumb'; 
+}
+
+/********************** INICIO DIV CLASS INTRO *************************/
+
+.intro{
+	width: 100%;
+	height: 100vh;
+	background: url('../rsc/img/bosqueFondo1.jpg')no-repeat top;
+	background-size: cover;/*la imagen de fondo cubre el total del div*/
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	/*display flex para alinear el contenido y los items al centro. Flex direction para cambiar a columna, ya que sino quedaría en línea*/
+	font-family: '2Dumb';
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+.tituloPrincipal{
+	font-size: 80px;
+	padding: 10px;
+    font-family: '3Dumb'; 
+	margin: 50px;
+}
+
+.menuNivel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	/*display flex para alinear el contenido y los items al centro. Flex direction para cambiar a columna, ya que sino quedaría en línea*/
+	padding: 10px;
+ 
+}
+
+.tituloPrincipal, .menuNivel {
+	background: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.8)), url("../rsc/img/fondoPapel.jpg"); /*efecto linear gradient con el fin de difuminar el fondo*/
+	
+	background-position: bottom;
+	background-size: cover;
+	box-shadow: 4px 4px 10px black;
+	border-radius: 5px;
+	/*Alineamos la imagen de fondo al centro, que cubra el total del div y agregamos una sombra*/
+	
+}
+
+
+
+.intro button{
+	/*mismo estilo para los botones del div .intro*/
+	font-size: 30px;
+	font-style: italic;
+	color: black;
+	padding: 10px;
+	border: 2px solid rgba(0, 0, 0, 0.7);
+	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+	/*el hsla en el border y el border-radius generan un efecto de bordes dibujados a mano*/
+	margin: 5%;
+	background: transparent;
+	text-transform: uppercase;
+	font-family: '2Dumb', sans-serif;
+	cursor: pointer;
+}
+
+/********************** INICIO DIV CLASS INSTRUCCIONES *************************/
+
+.instrucciones{
+	width: 100%;
+	height: 100vh;
+	position: fixed;/*se posiciona en relación con la viewport, lo que significa que siempre permanece en el mismo lugar, incluso si se desplaza la página.*/
+	top: 0px;
+	left: 0px;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 10;/*para que cuando aparezca se ubique delante del contenido*/
+	display: none; /* no se muestra por defecto*/
+}
+
+.caja{
+	width: 50%;
+	height: 80%;
+	background: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.7)), url("../rsc/img/fondoPapel.jpg"); /*efecto linear gradient con el fin de disfuminar el fondo*/
+	padding: 20px;
+	
+	position: absolute; 
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);/*modificamos los ejes de anclaje, con esto terminamos de ubicar el div en el centro.*/
+}
+
+.caja h1{
+	display: flex;
+	justify-content: space-between;
+	/*separamos el texto Instrucciones de la X que servirá para cerrar el div*/
+}
+
+.cerrarInstrucciones{
+	cursor: pointer;
+}
+
+.contenidoInstrucciones{
+	width: 100%;
+	height: 85%;
+	font-size: 20px;
+	font-weight: 500;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	/*Este div lleba la información de las instrucciones. se añade un overflow-x para que pueda haber scroll*/
+	
+}
+
+.contenidoInstrucciones img {
+	width: 90%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10%;
+	/*Centramos las imágenes y agregamos un 10% de margin bottom para separar los párrafos*/
+	
+}
+
+.botonInstrucciones{
+	font-size: 20px !important;
+	margin: 20px;
+}
+/********************** FIN DIV CLASS INSTRUCCIONES *************************/
+
+/********************** FIN DIV CLASS INTRO *************************/
+
+
+
+/********************** INICIO DIV conteneorPrincipal *************************/
+
+#conteneorPrincipal {
+	/*este div contiene el div marcador y el div contenedor que es la pantalla del juego*/
+	width: 100%;
+	height: 100vh;
+	display: none;/*por defecto no aparecerá*/
+	background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url("../rsc/img/fondoPapel.jpg");/*efecto linear gradient con el fin de disfuminar el fondo*/
+	background-position: center;
+	background-size: cover;
+}
+
+#marcador, #contenedor {
+	position: absolute;
+	border: 2px solid black;
+	border-radius: 20px;
+	box-shadow: 4px 4px 10px black;/*Estilos de bordes. Se repiten en el div contenedor*/
+	transform: translate(-50%, -50%);
+}
+
+#marcador {
+	height: 100px;
+	width: 90%;
+	top:10%;
+	left:50%;
+    display: flex; /* ubica las <p> una al lado de la otra*/
+    align-items: center;
+    justify-content: space-around; /* para separar los puntos de la velocidad*/
+    background: white;
+    opacity: 0.8; /* le damos cierta transpareccia*/
+    text-align: center;
+	font-size: 40px;
+        
+}
+
+
+#contenedor {
+	height: 400px;
+	width: 90%;
+	background-color: rgba(240,248,255 ,1 );/*color elegido para efecto del cielo*/
+	margin: 0px;
+	overflow: hidden; /*para que no muestre el scroll*/
+	top:50%;
+	left:50%;
+		
+}
+
+
+
+#bird {
+	position: absolute;
+	top: 20%;
+	left:15%;
+	/*posición inicial del pájaro. El left no cambiará, sólo el top*/
+	background-image: url('../../assets/rsc/img/pajaro1.png');/*imagen de fondo original. Cambiará cuando presionemos la barra espaciadora*/
+	height: 42px;
+	width: 65px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	z-index: 10; /*mismo index que los obstáculos*/
+}
+
+
+/*cada nube tendrá un top diferente*/
+/*el height y el width varían de acuerdo al tamaño de la imagen*/
+.nube1 {
+	position: absolute;
+	height: 130px;
+	width: 265px;
+    background-image: url('../rsc/img/nubes1.png');
+	right: -100px; /*esconde la nube fuera del contenedor*/
+	z-index: 8; /*por detrás del pájaro y los obstáculos*/
+	top:200px;
+	opacity: 0.5;
+
+}
+
+
+.nube2 {
+	position: absolute;
+	height: 70px;
+	width: 200px;
+    background-image: url('../rsc/img/nubes2.png');
+	right: -150px; /*esconde la nube fuera del contenedor*/
+	z-index: 8; /*por detrás del pájaro y los obstáculos*/
+	top:10px;
+	opacity: 0.5;
+
+}
+
+.nube3 {
+	position: absolute;
+	height: 140px;
+	width: 229px;
+    background-image: url('../rsc/img/nubes3.png');
+	right: -220px; /*esconde los obstaculos fuera del contenedor*/
+	z-index: 8; /*por detrás del pájaro y los obstáculos*/
+	top:90px;
+	opacity: 0.5;
+
+}
+
+.horizonte {
+	position: absolute;
+	height: 100px;
+	width: 100%;
+    background-image: url('../rsc/img/horizonte.png');
+    background-repeat: repeat-x;/* la imagen se repetirá sobre el eje x y se moverá de derecha a izquierda gracias a un setInterval*/
+    opacity: 0.8;
+	z-index: 9;/*por delante de las nubes, pero por detrás de los obstáculos y el pájaro*/
+	bottom: 0px;
+	
+}
+
+
+/************************* OBST'aCULOS ********************/
+
+.obstaculo, .obstaculo1, .obstaculo2 {
+	position: absolute;
+	height: 120px;
+	width: 40px;
+	transform: translate(50%, 0);/* para que coincidan los divs de la colisión con los divs de las imágenes*/
+
+}
+
+.obstaculo {
+	/*background-color: red;*/
+	right: -50px; /*esconde los obstaculos fuera del contenedor*/
+	z-index: 10;
+}
+
+.obstaculo1 {
+	/*background-color: blue;*/
+	right: -400px; /*esconde los obstaculos fuera del contenedor*/
+	z-index: 10;	
+}
+
+.obstaculo2 {
+	/*background-color: green;*/
+	right: -800px; /*esconde los obstaculos fuera del contenedor*/
+	z-index: 10;
+}
+
+
+.imgObstaculo {
+
+	position: absolute;
+	height: 120px;
+	width: 80px;
+	transform: translate(50%, 0);/* para que coincidan los divs de la colisión con los divs de las imágenes*/
+	background-color: transparent;
+	right: -50px; 
+	z-index: 11;/*por delante de los obstáculos*/
+}
+
+
+.imgObstaculo1 {
+	position: absolute;
+	height: 120px;
+	width: 80px;
+	transform: translate(50%, 0);
+	background-color: transparent;
+	right: -400px; /*esconde los obstaculos fuera del contenedor*/
+	z-index: 11;
+}
+
+
+
+.imgObstaculo2 {
+	position: absolute;
+	height: 120px;
+	width: 95px;
+	transform: translate(50%, 0);
+	background-color: transparent;
+	right: -800px; /*esconde los obstaculos fuera del contenedor*/
+	z-index: 11;
+}
+
+
+
+#obstaculo_1{
+	top: 0;/*posiciona el obstaculo 1 en la parte superior del contenerod*/
+}
+
+#obstaculo_2{
+	bottom: 0;/*posiciona el obstaculo 2 en la parte inferior del contenedor*/
+	
+}
+
+/*los obstáculos 3, 4 , 5 y 6 permanecen con display none. Esto cambiará de acuerdo al nivel seleccionado*/
+#obstaculo_3{
+	top: 0;
+	display: none;
+}
+
+#obstaculo_4{
+	bottom: 0;
+	display: none;
+	
+}
+
+#obstaculo_5{
+	top: 0;
+	display: none;
+}
+
+
+#obstaculo_6{
+	bottom: 0;
+	display: none;
+}
+
+/*imagen de cada obstáculo*/
+#imgObstaculo_1{
+	top: 0;/*posiciona el obstaculo 1 en la parte inferior del contenedor*/
+	background-image: url('../rsc/img/trees2Invertido.png');
+	background-position: bottom; /*esto se aplica a las imágenes que están en el top del contenedor, para que puedan verse correctamente*/
+	
+}
+#imgObstaculo_2{
+	bottom: 0;/*posiciona el obstaculo 2 en la parte inferior del contenedor*/
+	background-image: url('../rsc/img/trees2.png');
+}
+#imgObstaculo_3{
+	top: 0;/*posiciona el obstaculo 1 en la parte inferior del contenedor*/
+	background-image: url('../rsc/img/trees1Invertido.png');
+	background-position: bottom;
+	
+}
+
+#imgObstaculo_4{
+	bottom: 0;/*posiciona el obstaculo 2 en la parte inferior del contenedor*/
+	background-image: url('../rsc/img/trees1.png');
+}
+#imgObstaculo_5{
+	top: 0;/*posiciona el obstaculo 1 en la parte inferior del contenedor*/
+	background-image: url('../rsc/img/trees3Invertido.png');
+	background-position: bottom;
+	
+}
+#imgObstaculo_6{
+	bottom: 0;/*posiciona el obstaculo 2 en la parte inferior del contenedor*/
+	background-image: url('../rsc/img/trees3.png');
+}
+
+/************************* FIN OBST'aCULOS ********************/
+
+
+
+
+#reiniciar {
+	/*pantalla de Game Over*/
+   position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: black ;
+	opacity: 0.85;
+	color: white;
+	font-size: 35px;
+	cursor: pointer;
+	display: none;
+	
+}
+
+/* #tituloFinal, #puntajeFinal, #botonReiniciar se ubica uno debajo del otro separados por el % del top asignado a cada uno de ellos*/
+
+#tituloFinal, #puntajeFinal,#botonReiniciar {
+   	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -50%);
+} 
+#tituloFinal {
+	font-family: '3Dumb';	
+	top: 30%;		
+}
+
+#puntajeFinal {
+	top: 50%;
+}
+
+
+.ayudaTecla {
+	position: absolute;
+	top: 75%;
+	left: 50%;
+	font-weight: bold;
+	transform: translate(-50%,-50%);
+}
+
+#botonReiniciar {
+	top: 70%;
+	font-weight: 200;
+	font-size: 35px;
+	padding: 20px;
+	border: 2px solid white;
+	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+	/*mismo efecto que en los botones de la intro*/
+	background: transparent;
+	text-transform: uppercase;
+	font-family: '2Dumb', sans-serif;
+	color: white;
+	cursor: pointer;
+}
+
+
+/* MEDIA QUERIES */
+
+/* SMART TV */
+@media screen and (min-width: 1921px) {} 
+/* DESKTOP */
+@media screen and (max-width: 1920px) {}  
+/* laptop */
+@media screen and (max-width: 1024px) {}
+/* tablet */
+@media screen and (max-width: 768px) {}
+/* smat phone */
+@media screen and (max-width: 478px) {}
+/* Smart watch */
+@media screen and (max-width: 320px) {}
+
+
+/* ANIMACIONES */
+
+@keyframes animaciones {}
