@@ -1,0 +1,563 @@
+  <!DOCTYPE html>
+  <html lang="es">
+      <head>
+          <!--META-->
+          <meta charset="UTF-8"> 
+          <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+          <meta name="author" content="Gustavo Jaen">
+          <meta name="copyright" content="">
+          <meta name="contact" content="jaengustavof@gmail.com"> 
+          <meta name="description" content="Juego Flap for your life"> 
+          <meta name="keywords" content="">
+          <meta name="robots" content="NoIndex, NoFollow"> 
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no">	
+      
+          <!-- ESTILOS -->
+
+           <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+       
+          <link rel="icon" tyoe="icon/png" href="assets/rsc/img/favicon-16x16.png"> <!--va en la carpeta root. El favicon debe llamarse favicon.png. tiene que ser cuadrado. Mismo alto y ancho.-->
+
+          <title>Flap for your Life</title>
+
+
+      </head>
+      <body>
+
+        <audio id="audioPajaro">
+          <source src="assets/rsc/audio/140867__juskiddink__boing.wav" type="audio/wav">
+        </audio>
+
+        <audio id="gameOver">
+          <source src="assets/rsc/audio/gameOver.wav" type="audio/wav">
+        </audio>
+
+        <audio id="audioJuego" loop>
+          <source src="assets/rsc/audio/juego.mp3" type="audio/mp3">
+        </audio>
+         
+
+    <div class="intro">
+      <div class="instrucciones">
+        <div class="caja">
+          <h1>Instrucciones <span class="cerrarInstrucciones">X</span></h1>
+          <hr>
+          <div class="contenidoInstrucciones">
+            <p>Flap for your Life! es un juego de desplazamiento lateral con gráficos 2D de estilo retro. El objetivo es dirigir al personaje entre los obstáculos (árboles).</p>
+
+            <img src="assets/rsc/img/Instrucciones1.png" alt="Personaje atraviesa obstaculo">
+
+            <p>Cada obstáculo superado suma un punto, cada cinco puntos la velocidad aumenta en dos.</p>
+
+            <img src="assets/rsc/img/Instrucciones2.png" alt="Imagen del marcador y velociada">
+
+            <p>Si el jugador toca un obstáculo, el borde superior o el inferior, pierde.</p>
+
+            <img src="assets/rsc/img/Instrucciones3.png" alt="Personaje colisionando contra un objeto">
+
+            <p>El personaje aletéa brevemente cada vez que se presiona la barra espaciadora. Los obstáculos siempre tienen el mismo espacio entre ellos y el escenario no tiene fin.</p>
+
+
+          </div>
+        </div>
+      </div>
+
+      <h1 class="tituloPrincipal">FLAP FOR YOUR LIFE!</h1>
+      <div class="menuNivel">
+        <button class="accionJugar" value="1">Fácil</button>
+        <button class="accionJugar" value="2">Media</button>
+        <button class="accionJugar" value="3">Difícil</button>
+        <button class="botonInstrucciones">Instrucciones</button>
+
+      </div>
+      
+    </div>
+
+
+
+
+  <div id="conteneorPrincipal">
+   
+      <div id="marcador">
+            <p><b>Puntos: </b> <span id="puntos">0</span></p>
+            <p><b>Velocidad: </b> <span id="velocidad">10</span></p>
+      </div>
+
+      <div>
+        
+
+      </div>
+
+      <div id="contenedor">
+
+          <div id="bird"></div>
+
+          <div id="obstaculo_1" class="obstaculo"></div>
+          <div id="imgObstaculo_1" class="imgObstaculo"></div>
+          <div id="obstaculo_2" class="obstaculo"></div>
+          <div id="imgObstaculo_2" class="imgObstaculo"></div>
+
+          <div id="obstaculo_3" class="obstaculo1"></div>
+          <div id="imgObstaculo_3" class="imgObstaculo1"></div>
+          <div id="obstaculo_4" class="obstaculo1"></div>
+          <div id="imgObstaculo_4" class="imgObstaculo1"></div>
+
+
+          <div id="obstaculo_5" class="obstaculo2"></div>
+          <div id="imgObstaculo_5" class="imgObstaculo2"></div>
+          <div id="obstaculo_6" class="obstaculo2"></div>
+          <div id="imgObstaculo_6" class="imgObstaculo2"></div>
+
+          <div class="nube1"></div>
+          <div class="nube2"></div>
+          <div class="nube3"></div>
+
+          <div class="horizonte"></div>
+              
+        </div>
+
+
+          <div id="reiniciar">
+            <h1 id="tituloFinal">Game Over</h1>
+            <p id="puntajeFinal"></p>
+            <button id="botonReiniciar">Reiniciar</button>
+          </div>
+
+
+            <p class="ayudaTecla"> Press Space to Flap!</p>
+    </div>
+
+
+           
+       
+    <script type="text/javascript" src="vendor/jquery/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="assets/js/script.js"></script>
+
+    <noscript>Debe habilitar JavaScript</noscript>
+
+    <script type="text/javascript">
+            
+      $('.botonInstrucciones').click(function(){
+         
+      $('.instrucciones').slideDown();
+        });
+
+      $('.cerrarInstrucciones').click(function(){
+        $('.instrucciones').fadeOut();
+          
+        });
+
+
+      $('.accionJugar').click(function(){
+         
+      $('.intro').fadeOut();
+      $('#conteneorPrincipal').fadeIn();
+
+
+      var nivel = parseInt($(this).val());
+
+        //funcion document onready
+     
+  $(function() {
+
+            // guardamos los elementos del DOM en variables //
+      var contenedor = $('#contenedor');
+      var audioPajaro = document.querySelector('#audioPajaro');
+            audioPajaro.volume = 0.1;
+      var gameOver =  document.querySelector('#gameOver');
+            gameOver.volume = 0.5;
+      var audioJuego =  document.querySelector('#audioJuego');
+            audioJuego.volume = 0.1;
+
+      var marcador = $('#marcador');
+      var puntajeFinal = $('#puntajeFinal');
+      var bird = $('#bird');
+      var nube1 = $('.nube1');
+      var nube2 = $('.nube2');
+      var nube3 = $('.nube3');
+      var horizonte = $('.horizonte');       
+      var imgObstaculo = $('.imgObstaculo');
+      var imgObstaculo1 = $('.imgObstaculo1');
+      var imgObstaculo2 = $('.imgObstaculo2');
+      var obstaculo = $('.obstaculo');
+      var obstaculo1 = $('.obstaculo1');
+      var obstaculo2 = $('.obstaculo2');
+      var obstaculo_1 = $('#obstaculo_1');
+      var imgObstaculo_1 = $('#imgObstaculo_1');
+      var obstaculo_2 = $('#obstaculo_2');
+      var imgObstaculo_2 = $('#imgObstaculo_2');
+      var obstaculo_3 = $('#obstaculo_3');
+      var imgObstaculo_3 = $('#imgObstaculo_3');
+      var obstaculo_4 = $('#obstaculo_4');
+      var imgObstaculo_4 = $('#imgObstaculo_4');
+      var obstaculo_5 = $('#obstaculo_5');
+      var imgObstaculo_5 = $('#imgObstaculo_5');
+      var obstaculo_6 = $('#obstaculo_6');
+      var imgObstaculo_6 = $('#imgObstaculo_6');
+      var puntos_span = $('#puntos');
+      var velocidad_span = $('#velocidad');
+      var reiniciar = $('#reiniciar');
+      var botonReiniciar = $('#botonReiniciar');
+      var imagen1 = 'assets/rsc/img/pajaro1.png';
+      var imagen2 = 'assets/rsc/img/pajaro2.png';
+
+
+
+            //guardamos los valores iniciales
+      var contenedorAncho = parseInt(contenedor.width());//ancho del contenedor
+      var contenedorAltura = parseInt(contenedor.height());//alturadel contenedor
+            
+      var nube1PosicionInicial = parseInt(nube1.css('right'));//posición inicial de la nube1          
+      var nube2PosicionInicial = parseInt(nube2.css('right'));//posición inicial de la nube1          
+      var nube3PosicionInicial = parseInt(nube3.css('right'));//posición inicial de la nube1
+            
+      var obstaculoPosicionInicial = parseInt(obstaculo.css('right'));//posición inicial del obstáculo
+      var obstaculoAlturaInicial = parseInt(obstaculo.css('height'));//altura inicial del obstáculo
+      var imgObstaculoPosicionInicial = parseInt(imgObstaculo.css('right'));//posición inicial del obstáculo
+
+      var obstaculo1PosicionInicial = parseInt(obstaculo1.css('right'));//posicion inicial del obstáculo
+      var obstaculo1AlturaInicial = parseInt(obstaculo1.css('height'));//altura inicial del obstáculo
+      var imgObstaculo1PosicionInicial = parseInt(imgObstaculo1.css('right'));//posición inicial del obstáculo
+
+      var obstaculo2PosicionInicial = parseInt(obstaculo2.css('right'));//posición inicial del obstáculo
+      var obstaculo2AlturaInicial = parseInt(obstaculo2.css('height'));//altura inicial del obstáculo
+      var imgObstaculo2PosicionInicial = parseInt(imgObstaculo2.css('right'));//posicion inicial del obstáculo
+
+      var birdIzq = parseInt(bird.css('left'));//posición inicial del personaje
+      var birdAltura = parseInt(bird.height());//posición inicial del personaje
+
+      var velocidad = 10; //velocidad inicial del juego
+      var puntos = 0; // puntos iniciales del juego
+      var puntosActualizar = false; // variable que servir'a para evitar que siga contando puntos una vez que haya superado un obst'aculo
+      var contador = 0; // contador para saber cuándo se aumentará la velocidad del juego..
+      var vuelo = false; // si vuelo es false, el personaje seguirá descendiendo.
+      var game_over = false; // si es true, no se podrá mover el personaje una vez haya perdido la partida.
+      var fondo = 0; //posicion del fondo para el movimiento del horizonte.
+      audioJuego.play(); // reproduce el audio del juego.
+
+      var moverFondo = setInterval(function(){
+              fondo-=5;
+              horizonte.css('background-position', fondo + 'px 0');
+          }, 40);
+
+
+      if (nivel == 2) {
+        obstaculo_3.css('display', 'block');
+        obstaculo_4.css('display', 'block');
+              
+      }else if (nivel == 3) {
+        obstaculo_3.css('display', 'block');
+        obstaculo_4.css('display', 'block');
+        obstaculo_5.css('display', 'block');
+        obstaculo_6.css('display', 'block');
+
+      }
+            //elJuego es una función que corre cada 40 milisegundos
+      var elJuego = setInterval(function(){
+
+
+        //verificamos si hay colisi'on//
+      if(colision(bird, obstaculo_1) || colision(bird, obstaculo_2) || colision(bird, obstaculo_3) || colision(bird, obstaculo_4) || colision(bird, obstaculo_5) || colision(bird, obstaculo_6) || parseInt(bird.css('top')) <= 0 || parseInt(bird.css('bottom')) <= 0) {
+              //verificamos si hay colision con los obstáculos || si el top o el bottom del bird es <= 0. En caso de ser true llamamos a la función
+        audioJuego.pause();
+          gameOver.play();
+          pararJuego();
+
+        }else{ //de no existtir colisión se definen estas variables//
+
+            var nube1PosicionActual = parseInt(nube1.css('right'));
+            var nube2PosicionActual = parseInt(nube2.css('right'));
+            var nube3PosicionActual = parseInt(nube3.css('right'));
+                  //dependiendo el nivel guardamos la posicion del obstáculo en variables. Esto lo hacemos para evitar que sume puntos en niveles donde no aparecen ciertos obstáculos.
+            if(nivel === 3) {
+                    //obtenemos la posicion inicial del obstaculo para ir moviendolo hacia la izquierda
+            var obstaculoPosicionActual = parseInt(obstaculo.css('right'));
+            var imgObstaculoPosicionActual = parseInt(imgObstaculo.css('right'));
+            var obstaculo1PosicionActual = parseInt(obstaculo1.css('right'));
+            var imgObstaculo1PosicionActual = parseInt(imgObstaculo1.css('right'));
+            var obstaculo2PosicionActual = parseInt(obstaculo2.css('right'));
+            var imgObstaculo2PosicionActual = parseInt(imgObstaculo2.css('right'));
+
+            }else if(nivel === 2) {
+                     //obtenemos la posicion inicial del obstaculo para ir moviendolo hacia la izquierda
+            var obstaculoPosicionActual = parseInt(obstaculo.css('right'));
+            var imgObstaculoPosicionActual = parseInt(imgObstaculo.css('right'));
+            var obstaculo1PosicionActual = parseInt(obstaculo1.css('right'));
+            var imgObstaculo1PosicionActual = parseInt(imgObstaculo1.css('right'));
+
+
+            }else {
+
+            var obstaculoPosicionActual = parseInt(obstaculo.css('right'));
+              var imgObstaculoPosicionActual = parseInt(imgObstaculo.css('right'));
+
+            }
+                
+               
+            
+            //condicion para contar puntos//
+
+            if(obstaculoPosicionActual > contenedorAncho - birdIzq){
+                  //verificamos que el 'right' del obstáculo sea mayor que el ancho total del contenedor, menos el 'left' del div que contiene al personaje
+                      if (puntosActualizar === false) {
+                  puntos++;
+                puntos_span.text(puntos);
+                contador++;
+                //console.log(puntos);
+                //console.log(contador);
+                puntosActualizar = true;
+
+              }
+                           
+            }else if (obstaculo1PosicionActual > contenedorAncho - birdIzq) {
+                  if (puntosActualizar === false) {
+                  puntos++;
+                puntos_span.text(puntos);
+                contador++;
+                //console.log(puntos);
+                //console.log(contador);
+                puntosActualizar = true;
+
+
+              }
+            } else if (obstaculo2PosicionActual > contenedorAncho - birdIzq) {
+                  if (puntosActualizar === false) {
+                  puntos++;
+                puntos_span.text(puntos);
+                contador++;
+                //console.log(puntos);
+                //console.log(contador);
+                puntosActualizar = true;
+
+              }
+            }
+
+            if(contador == 5) {
+                        //aumentamos la velocidad
+                 velocidad = velocidad + 2;
+                 velocidad_span.text(velocidad);
+                 contador = 0;
+                     
+                 }
+                    
+                    
+                    //reiniciamos las posiciones de las nubes//
+               if (nube1PosicionActual > contenedorAncho) {
+  
+                    //actualizamos la posición actual por la posicion inicial para que aparezca a la derecha nuevamente.
+                  nube1PosicionActual = nube1PosicionInicial;
+
+              }else if(nube2PosicionActual > contenedorAncho) {
+
+                  nube2PosicionActual = nube2PosicionInicial;
+
+              }else if(nube3PosicionActual > contenedorAncho) {
+
+                  nube3PosicionActual = nube3PosicionInicial;
+
+             }
+
+
+
+
+ //verificamos si el obstáculo ha salido del contenedor
+          if (obstaculoPosicionActual > contenedorAncho) {
+
+                   //crea un nuevo valor al azar para la altura de los obstáculos
+              var newAltura = parseInt(Math.random()*100);
+
+                    // cambia la altura del obstáculo 1 sumándole la variable newAltura
+              obstaculo_1.css('height', obstaculoAlturaInicial + newAltura);
+
+              imgObstaculo_1.css('height', obstaculoAlturaInicial + newAltura);
+
+                    // cambia la altura del obstáculo 2 restando la variable newAltura
+              obstaculo_2.css('height', obstaculoAlturaInicial - newAltura);
+
+              imgObstaculo_2.css('height', obstaculoAlturaInicial - newAltura);
+                 
+
+
+                    //actualizamos la posicián actual por la posicián inicial para que aparezca a la derecha nuevamente.
+              obstaculoPosicionActual = obstaculoPosicionInicial;
+              imgObstaculoPosicionActual = obstaculoPosicionInicial;
+
+              puntosActualizar = false; 
+
+          }else if (obstaculo1PosicionActual > contenedorAncho) {
+
+                    //crea un nuevo valor al azar para la altura de los obstáculos
+              var newAltura = parseInt(Math.random()*100);
+
+                    // cambia la altura del obstáculo 1 sumandole la variable newAltura
+              obstaculo_3.css('height', obstaculo1AlturaInicial + newAltura);
+
+              imgObstaculo_3.css('height', obstaculoAlturaInicial + newAltura);
+
+                    // cambia la altura del obstáculo 2 restando la variable newAltura
+              obstaculo_4.css('height', obstaculo1AlturaInicial - newAltura);
+
+              imgObstaculo_4.css('height', obstaculo1AlturaInicial - newAltura);
+                 
+
+
+                    //actualizamos la posición actual por la posición inicial para que aparezca a la derecha nuevamente.
+              obstaculo1PosicionActual = obstaculoPosicionInicial;
+              imgObstaculo1PosicionActual = obstaculo1PosicionInicial;
+
+              puntosActualizar = false; 
+
+          } else if (obstaculo2PosicionActual > contenedorAncho) {
+
+                    //crea un nuevo valor al azar para la altura de los obstáculos
+              var newAltura = parseInt(Math.random()*100);
+
+                    // cambia la altura del obstáculo 1 sumándole la variable newAltura
+              obstaculo_5.css('height', obstaculo2AlturaInicial - newAltura);
+              imgObstaculo_5.css('height', obstaculo2AlturaInicial - newAltura);
+                 
+
+                    // cambia la altura del obstáculo 2 restando la variable newAltura
+              obstaculo_6.css('height', obstaculo2AlturaInicial + newAltura);
+              imgObstaculo_6.css('height', obstaculo2AlturaInicial + newAltura);
+                 
+
+
+                    //actualizamos la posición actual por la posición inicial para que aparezca a la derecha nuevamente.
+              obstaculo2PosicionActual = obstaculoPosicionInicial;
+              imgObstaculo2PosicionActual = obstaculo1PosicionInicial;
+              puntosActualizar = false; 
+
+                }
+
+                //movemos el objeto hacia la izquierda sumándole el valor de la variable velocidad
+                obstaculo.css('right', obstaculoPosicionActual + velocidad);
+                imgObstaculo.css('right', obstaculoPosicionActual + velocidad);
+
+                obstaculo1.css('right', obstaculo1PosicionActual + velocidad);
+                imgObstaculo1.css('right', obstaculo1PosicionActual + velocidad);
+                obstaculo2.css('right', obstaculo2PosicionActual + velocidad);
+                imgObstaculo2.css('right', obstaculo2PosicionActual + velocidad);
+
+                nube1.css('right', nube1PosicionActual + 3);
+                nube2.css('right', nube2PosicionActual + 4);
+                nube3.css('right', nube3PosicionActual + 5);
+
+                if(vuelo == false){
+
+                    bajar(); 
+
+                }
+
+              }
+
+            }, 40);
+
+            $(document).on('keydown', function(e){
+                var key = e.keyCode; //obtiene el codigo de la tecla que se presiona
+                if(key === 32 && vuelo === false && game_over === false) {
+                  // si el key es igual a 32 llama a la funcion up
+                  vuelo = setInterval(arriba, 50);
+                  
+                }
+
+            });
+
+            $(document).on('keyup', function(e){
+                var key = e.keyCode; //al soltar la tecla vacia el interval y actualiza la variable vuelo
+                if(key === 32) {
+                 
+                  clearInterval (vuelo);
+                  vuelo = false;
+
+                }
+
+            });
+
+
+
+            function bajar(){
+              //mueve al personaje hacia abajo 5 px;
+              bird.css('top',parseInt(bird.css('top')) + 5);
+              bird.css('background-image', 'url('+imagen1+')');//cambia la imagen del pajaro
+
+              audioPajaro.pause();//deja de reproducir el sonido cuando vuela.
+              audioPajaro.currentTime = 0; // Reset time
+              
+
+            }
+
+            function arriba(){
+              //mueve al personaje hacia arriba 10 px;
+              bird.css('top',parseInt(bird.css('top')) - 10);
+              bird.css('background-image', 'url('+imagen2+')'); //cambia la imagen del pájaro
+
+              audioPajaro.play();
+              audioPajaro.loop = false;
+
+            }
+
+
+            
+
+            //funcion para verificar la colisión con los obstaculos.
+
+            function colision($div1, $div2){
+              // pasamos dos divs como parametros. En nuetro caso el div que contienen al personaje y los obstaculos.
+              var offIzq1 = $div1.offset().left; // obtiene la posición left actual del primer div
+              var offTop1 = $div1.offset().top; // obtiene la posición top actual del primer div
+              var outHeight1 = $div1.outerHeight(true); // Obtiene la altura externa actual calculada incluido el padding, el borde y el margen.
+              var outWidth1 = $div1.outerWidth(true); // Obtiene el ancho externoxº actual calculada incluido el padding, el borde y el margen.
+              var sumaOffOut1 = offTop1 + outHeight1;
+              var sumaOizqOwidth = offIzq1 + outWidth1;
+              var offIzq2 = $div2.offset().left;
+              var offTop2 = $div2.offset().top;
+              var outHeight2 = $div2.outerHeight(true);
+              var outWidth2 = $div2.outerWidth(true);
+              var sumaOffOut2 = offTop2 + outHeight2;
+              var sumaOizqOwidth2 = offIzq2 + outWidth2;
+
+              //devuelve true si hay colision o false si no la hay
+              if (sumaOffOut1 < offTop2 || offTop1 > sumaOffOut2 || sumaOizqOwidth < offIzq2 || offIzq1 > sumaOizqOwidth2){
+
+                return false;
+
+              } else{
+
+                 return true;
+
+              }
+
+             
+
+            }
+
+            function pararJuego(){
+              //clear al setInterval del juego. 
+              clearInterval(elJuego);
+              clearInterval(moverFondo);
+              game_over = true;
+              marcador.fadeOut();
+              contenedor.fadeOut();
+              reiniciar.slideDown();
+              puntajeFinal.append('Marcador Final: ' + puntos);
+              botonReiniciar.slideDown();
+
+
+            }
+
+            botonReiniciar.click(function(){
+              location.reload();
+            });
+
+          });
+      });
+              
+              
+
+          
+         
+
+          </script>
+      </body>
+  </html>
